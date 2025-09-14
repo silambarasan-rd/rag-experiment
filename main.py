@@ -5,9 +5,9 @@ from vector import retriever
 model = OllamaLLM(model="llama3.2")
 
 template = """
-You are an expert in answering questions about a Thirukural.
+You are an expert in answering questions about EV Charging Stations in India.
 
-Here are the list of thirukurals: {thirukurals}
+Here are the list of EV Charging Stations: {charging_stations}
 
 Here is the question to answer: {question}
 """
@@ -18,7 +18,7 @@ chain = prompt | model
 while True:
    print("\n\n")
    print("======================================")
-   question = input("Ask your question (or q to quit): ")
+   question = input("Ask your query (or q to quit): ")
    print("--------------------------------------")
    print("\n\n")
 
@@ -26,5 +26,5 @@ while True:
        break
    
    documents = retriever.invoke(question)
-   result = chain.invoke({ "thirukurals": documents, "question": question})
+   result = chain.invoke({ "charging_stations": documents, "question": question})
    print(result)

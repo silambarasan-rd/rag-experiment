@@ -4,7 +4,7 @@ from langchain_core.documents import Document
 import os
 import pandas as pd
 
-df = pd.read_csv("thirukural_explanation.csv")
+df = pd.read_csv("ev_final.csv")
 
 embeddings = OllamaEmbeddings(model="mxbai-embed-large")
 
@@ -17,8 +17,8 @@ if add_documents:
 
     for index, row in df.iterrows():
         document = Document(
-            page_content=row["Chapter_Name"] + " " + row["Explanation"] + " " + row["Translation"],
-            metadata={"kural": row["Verse"], "chapter": row["Chapter_Name"]},
+            page_content=row["address"] + " " + row["city"] + " " + row["country"] + " " + row["name"] + " " + row["vendor_name"],
+            metadata={"uid": row["uid"], "name": row["name"], "address": row["address"], "city": row["city"], "country": row["country"], "vendor_name": row["vendor_name"], "logo_url": row["logo_url"]},
             id=str(index)
         )
 
@@ -26,15 +26,14 @@ if add_documents:
         documents.append(document)
 
 vector_store = Chroma(
-    collection_name="thirukural_explanations",
+    collection_name="ev_stations",
     embedding_function=embeddings,
     persist_directory=db_location
 )
 
 if add_documents:
     vector_store.add_documents(documents=documents, ids=ids)
-    # vector_store.persist()
 
 retriever = vector_store.as_retriever(
-    search_kwargs={"k": 5}
+    search_kwargs={"k": 10}
 )
