@@ -1,4 +1,12 @@
 langchain
+langchain-community
+langchain-openai
 langchain-ollama
 langchain-chroma
+langchain-pinecone
 pandas
+pypdf
+python-dotenv
+pinecone
+streamlit
+advanced-chunker
